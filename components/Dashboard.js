@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { StyleSheet, View, Text, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
-function Dashboard({ navigation }) {
+function Dashboard({route, navigation }) {
+
   return (
     <View style={styles.container}>
-      <Text  onPress={() => navigation.navigate('User')} style={styles.usuario}>Usuário</Text>
+      <Text  onPress={() => navigation.navigate('User')} style={styles.usuario}>{route.params.Login}</Text>
       <Text style={styles.criarNovaConta1}>20 tarefas incompletas</Text>
       <Text style={styles.criarNovaConta2}>10 tarefas novas</Text>
       <View style={styles.rect}>

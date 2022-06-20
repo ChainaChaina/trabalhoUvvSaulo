@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useApp } from "../context/appContext";
 import {
   StyleSheet,
   View,
@@ -12,6 +13,8 @@ import axios from "axios";
  
 
 function Login({ navigation }) {
+
+  const { user, setUser } = useApp();
 
 
   useEffect(() => {
@@ -37,7 +40,8 @@ function Login({ navigation }) {
     console.log(Logins.email)
     if (Login == Logins.email || Senha == Logins.password  )
     {
-      navigation.navigate('Dashboard')
+      navigation.navigate('Dashboard', {Login})
+      setUser(Login)
     }
     else{
       console.log('senha errada')

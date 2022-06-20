@@ -1,4 +1,5 @@
 import React, { Component, useEffect, useState } from "react";
+import { useApp } from "../context/appContext";
 import { StyleSheet, View, Text } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 
@@ -8,7 +9,7 @@ import axios from "axios";
 
 
 function User({ navigation }) {
-
+  const { user, setUser } = useApp();
   const [Logins, setLogins] = useState({email:'user'});
 
   useEffect(() => {
@@ -29,7 +30,7 @@ function User({ navigation }) {
       <View style={styles.photo} ></View>
       <Text style={styles.usuario1}>{Logins.email}</Text>
       <View style={styles.userEmailGmailComRow}>
-        <Text style={styles.userEmailGmailCom}>user.email@gmail.com</Text>
+        <Text style={styles.userEmailGmailCom}>{user}</Text>
         <Icon name="edit-3" style={styles.icon}></Icon>
       </View>
       <Text style={styles.usuario2}>*********</Text>

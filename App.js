@@ -13,11 +13,13 @@ import Login from './components/Login';
 import Novalista from './components/Novalista';
 import Tarefa from './components/Tarefa';
 import User from './components/User';
+import AppContext from './context/appContext';
 
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
+    <AppContext>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{
     headerShown: false
@@ -35,6 +37,7 @@ function App() {
 
       </Stack.Navigator>
     </NavigationContainer>
+</AppContext>
   );
 }
 
