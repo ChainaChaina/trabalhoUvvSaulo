@@ -1,27 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { useApp } from "../context/appContext";
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Text,
-  TextInput,
-  
-} from "react-native";
+import { StyleSheet, View, Text, TextInput, TouchableOpacity } from "react-native";
 import axios from "axios";
+import { useApp } from "../context/appContext";
 
- 
+export function Login({ navigation }) {
 
-function Login({ navigation }) {
 
   const { user, setUser } = useApp();
-
+  const [contas, setContas] = useState();
+  const [Login, setLogin] = useState('');
+  const [Senha, setSenha] = useState('');
 
   useEffect(() => {
-    axios.get('https://62a6865fb9b74f766a483458.mockapi.io/users/1')
+    axios.get('https://62954cb4a7203b3ed079880f.mockapi.io/Contas')
     .then(function (response) {
       console.log(response.data);
-      setLogins(response.data)
+      setContas(response.data)
+      console.log(contas)
     })
     .catch(function (error) {
       console.log(error);
@@ -30,84 +25,39 @@ function Login({ navigation }) {
   }, []);
 
 
-  const [Logins, setLogins] = useState();
-
-  const [Login, setLogin] = useState('');
-  const [Senha, setSenha] = useState('');
-
-
-  function loginFunction(){
-    console.log(Logins.email)
-    if (Login == Logins.email || Senha == Logins.password  )
+  function login(){
+    console.log(contas[0].Login)
+    
+    if (Login == contas[0].Login )
     {
-      navigation.navigate('Dashboard', {Login})
+      navigation.navigate('Perfil', {Login})
       setUser(Login)
     }
     else{
-      console.log('senha errada')
+      console.log('Acesso negado')
     }
   }
- 
+
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button}>
-        <View style={styles.textStack}>
-          <Text style={styles.text}>Log In</Text>
-          <TouchableOpacity  onPress={() => loginFunction()} style={styles.button1}>
+      <Text style={styles.logIn}>Log in</Text>
+      <TextInput  onChangeText={(value)=> setLogin(value)} placeholder="    Email" style={styles.email}></TextInput>
+      <TextInput placeholder="    Senha" style={styles.email1}></TextInput>
+      <TouchableOpacity  onPress={() => login()} style={styles.button1}>
             <Text style={styles.text1}>Log In</Text>
           </TouchableOpacity>
-        </View>
-      </TouchableOpacity>
-      <View style={styles.placeholderStack}>
-        <TextInput onChangeText={(value)=> setLogin(value)} placeholder="Email" style={styles.placeholder}></TextInput>
-        <View style={styles.rect}></View>
-      </View>
-      <View style={styles.placeholder1Stack}>
-        <TextInput onChangeText={(value)=> setSenha(value)}  secureTextEntry={true} placeholder="Senha" style={styles.placeholder1}></TextInput>
-        <View style={styles.rect1}></View>
-      </View>
-      <Text onPress={() => navigation.navigate('Novaconta')} style={styles.criarNovaConta}>Criar nova conta</Text>
-      <Text style={styles.listerr1}>Listerr</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  button: {
-    width: 270,
-    height: 41,
-    backgroundColor: "rgba(0,148,255,1)",
-    borderRadius: 31,
-    shadowColor: "rgba(0,0,0,1)",
-    shadowOffset: {
-      width: 3,
-      height: 3
-    },
-    elevation: 5,
-    shadowOpacity: 0.08,
-    shadowRadius: 0,
-    marginTop: 517,
-    marginLeft: 49
-  },
-  text: {
-    top: 11,
-    left: 117,
-    position: "absolute",
-    fontFamily: "roboto-regular",
-    color: "rgba(255,255,255,1)",
-    lineHeight: 22
-  },
   button1: {
     top: 0,
-    left: 0,
+    margin: 'auto',
     width: 270,
     height: 41,
-    position: "absolute",
-    backgroundColor: "rgba(0,148,255,1)",
+    backgroundColor: "black",
     borderRadius: 31,
     shadowColor: "rgba(0,0,0,1)",
     shadowOffset: {
@@ -118,81 +68,51 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 0
   },
-  text1: {
-    fontFamily: "roboto-regular",
-    color: "rgba(255,255,255,1)",
-    lineHeight: 22,
-    marginTop: 11,
-    marginLeft: 117
+  text1:{
+    margin: 'auto',
+    color:  'white'
+
   },
-  textStack: {
-    width: 270,
-    height: 41
+  container: {
+    flex: 1,
+    backgroundColor: "rgba(133,169,255,1)"
   },
-  placeholder: {
-    top: 0,
-    left: 7,
-    position: "absolute",
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    height: 43,
-    width: 262,
-    fontSize: 28,
-    textAlign: "left"
-  },
-  rect: {
-    top: 42,
-    left: 0,
-    width: 313,
-    height: 1,
-    position: "absolute",
-    backgroundColor: "rgba(0,0,0,1)"
-  },
-  placeholderStack: {
-    width: 313,
-    height: 43,
-    marginTop: -236,
-    marginLeft: 28
-  },
-  placeholder1: {
-    top: 0,
-    left: 7,
-    position: "absolute",
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    height: 43,
-    width: 262,
-    fontSize: 28,
-    textAlign: "left",
-  },
-  rect1: {
-    top: 41,
-    left: 0,
-    width: 313,
-    height: 1,
-    position: "absolute",
-    backgroundColor: "rgba(0,0,0,1)"
-  },
-  placeholder1Stack: {
-    width: 313,
-    height: 43,
-    marginTop: 30,
-    marginLeft: 28
-  },
-  criarNovaConta: {
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    fontSize: 19,
-    marginTop: 201,
-    marginLeft: 117
-  },
-  listerr1: {
-    // fontFamily: "roboto-700",
-    color: "#121212",
-    fontSize: 44,
-    marginTop: -492,
+  logIn: {
+    fontFamily: "roboto-700",
+    color: "rgba(8,8,8,1)",
+    height: 48,
+    width: 192,
+    fontSize: 32,
+    textAlign: "center",
+    marginTop: 68,
     alignSelf: "center"
+  },
+  email: {
+    fontFamily: "roboto-regular",
+    color: "#121212",
+    height: 57,
+    width: 298,
+    backgroundColor: "#fff",
+    borderRadius: 9,
+    marginTop: 48,
+    marginLeft: 36
+  },
+  email1: {
+    fontFamily: "roboto-regular",
+    color: "#121212",
+    height: 57,
+    width: 298,
+    backgroundColor: "#fff",
+    borderRadius: 9,
+    marginTop: 27,
+    marginLeft: 36
+  },
+  materialButtonDark1: {
+    height: 58,
+    width: 269,
+    borderRadius: 61,
+    backgroundColor: "rgba(6,6,6,1)",
+    marginTop: 291,
+    marginLeft: 53
   }
 });
-
-export default Login;
